@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Billing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BillingController extends Controller
 {
@@ -12,7 +13,10 @@ class BillingController extends Controller
      */
     public function index()
     {
-        //
+        $user_id = Auth::id();
+        $billings = Billing::where('user_id', $user_id)->latest('updated_at')->paginate(1);
+        return view('billings.index') -> with('billings', $billings);
+
     }
 
     /**
